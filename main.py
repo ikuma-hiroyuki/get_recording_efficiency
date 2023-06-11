@@ -21,7 +21,7 @@ def get_duration(file_path):
 total_duration = 0
 for file in target_dir.glob('*'):
     if file.suffix in ['.mp4', '.mov']:
-        create_date = datetime.fromtimestamp(os.path.getctime(file)).date()
+        create_date = datetime.fromtimestamp(os.stat(file).st_mtime).date()
         if create_date == datetime.today().date():
             duration = get_duration(file)
             print(f'{file.name} {duration:.0f}分')
