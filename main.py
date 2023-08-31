@@ -70,7 +70,8 @@ if __name__ == '__main__':
     video = VideoCreateEfficiencyCalculator(term_args.path, term_args.worktime, term_args.date)
     video.print_efficiency()
 
-    excel_args = [video.target_date, video.worktime, video.total_completed_video_duration, video.efficiency]
-    excel_writer = ExcelWriter(*excel_args)
-    excel_writer.write_excel()
-    excel_writer.open_workbook()
+    if video.total_completed_video_duration:
+        excel_args = [video.target_date, video.worktime, video.total_completed_video_duration, video.efficiency]
+        excel_writer = ExcelWriter(*excel_args)
+        excel_writer.write_excel()
+        excel_writer.open_workbook()
