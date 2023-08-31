@@ -1,10 +1,16 @@
 # 本日完成した動画ファイルの再生時間を取得し、収録時間との比率を計算する
 
+## 使用方法
+1. 仮想環境に入る
+2. `pip install -r requirements.txt` を実行する
+3. `python main.py <動画ファイルがあるディレクトリ> <今日の作業時間(分)> (対象日 [YYYY-MM-DD])` を実行する
+4. 作業効率が表示される
+5. 同ディレクトリに `video_create_efficiency.xlsx` が作成され、開かれる
 
 
 ## 前提条件
 
-ffmpeg のインストールが必要。
+Macはffmpeg のインストールが必要。
 
 ```sh
 brew install ffmpeg
@@ -15,16 +21,16 @@ brew install ffmpeg
 ## ヘルプ
 
 ```sh
-python3 main.py -h
-usage: main.py [-h] path worktime
+usage: main.py [-h] [-d DATE] path worktime
 
 今日の作業効率を計算する
 
 positional arguments:
-  path
-  worktime
+  path                  動画ファイルがあるディレクトリ
+  worktime              今日の作業時間(分)
 
 options:
-  -h, --help  show this help message and exit
+  -h, --help            show this help message and exit
+  -d DATE, --date DATE  計算対象の作業日を指定する(YYYY-MM-DD)
 ```
 
