@@ -20,7 +20,7 @@ class VideoCreateEfficiencyCalculator:
     """今日の作業効率を計算する"""
 
     def __init__(self, path, worktime, date=None):
-        self.target_dir = Path(path)
+        self.target_dir = Path(path).expanduser()
         self.worktime = worktime
         if date:
             self.target_date = datetime.strptime(date, '%Y-%m-%d').date()
@@ -44,9 +44,10 @@ class VideoCreateEfficiencyCalculator:
     def _get_duration_in_minutes(self, video_file):
         """動画ファイルの長さを分単位で返す"""
         file_create_date = datetime.fromtimestamp(os.stat(video_file).st_mtime).date()
+        duration = 0
         if file_create_date == self.target_date:
             duration = VideoFileClip(str(video_file)).duration / 60
-            return duration
+        return duration
 
     def _calculate_total_duration(self):
         """今日の動画完成合計時間を計算する"""
@@ -54,7 +55,8 @@ class VideoCreateEfficiencyCalculator:
         for file in self.target_dir.glob('**/*'):
             if file.suffix in ['.mp4', '.mov']:
                 duration = self._get_duration_in_minutes(file)
-                print(f'{file.name} {duration:.0f}分')
+                if duration:
+                    print(f'{file.name} {duration:.0f}分')
                 total_duration += duration
         return total_duration
 
