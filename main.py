@@ -2,7 +2,10 @@ import argparse
 import os
 from datetime import datetime
 from pathlib import Path
+
 from moviepy.editor import VideoFileClip
+
+from excel_output import ExcelWriter
 
 
 def get_args():
@@ -56,11 +59,16 @@ class VideoCreateEfficiencyCalculator:
         return total_duration
 
     def print_efficiency(self):
-        print(f'\n合計時間: {self.total_completed_video_duration:.0f}分')
+        print(f'\n合計時間: {self.total_completed_video_duration:.2f}分')
         print(f'作業効率: {self.efficiency:.2f}')
 
 
 if __name__ == '__main__':
-    args = get_args()
-    video_create = VideoCreateEfficiencyCalculator(args.path, args.worktime, args.date)
-    video_create.print_efficiency()
+    term_args = get_args()
+    video = VideoCreateEfficiencyCalculator(term_args.path, term_args.worktime, term_args.date)
+    video.print_efficiency()
+
+    excel_args = [video.target_date, video.worktime, video.total_completed_video_duration, video.efficiency]
+    excel_writer = ExcelWriter(*excel_args)
+    excel_writer.write_excel()
+    excel_writer.open_workbook()
